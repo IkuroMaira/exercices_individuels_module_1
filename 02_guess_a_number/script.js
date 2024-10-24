@@ -3,29 +3,29 @@
 // console.log(givenNumber);
 
 // Créer une fonction qui demande un nombre à deviner
-function askNumber() {
-    let number = null; // j'initialise la variable
-
-    // Tant que le nombre n'est pas valide
-    while (number === null || isNaN(number) || number > 50 || number < 0) {
-        let message = "Joueur 1, donner un nombre à deviner entre 0 et 50: ";
-
-        // On ajoute un message d'erreur si nécessaire
-        if (number !== null && isNaN(number)) {
-            message = "Erreur: Le nombre doit être entre 0 et 50. Réessayez :";
-        }
-
-        // On demande le nombre à l'utilisateur
-        let userPrompt = prompt(message);
-        number = parseInt(userPrompt);
-    }
-
-    return number;
-}
+// function askNumber() {
+//     let number = null; // j'initialise la variable
+//
+//     // Tant que le nombre n'est pas valide
+//     while (number === null || isNaN(number) || number > 50 || number < 0) {
+//         let message = "Joueur 1, donner un nombre à deviner entre 0 et 50: ";
+//
+//         // On ajoute un message d'erreur si nécessaire
+//         if (number !== null && isNaN(number)) {
+//             message = "Erreur: Le nombre doit être entre 0 et 50. Réessayez :";
+//         }
+//
+//         // On demande le nombre à l'utilisateur
+//         let userPrompt = prompt(message);
+//         number = parseInt(userPrompt);
+//     }
+//
+//     return number;
+// }
 
 // Je stocke le nombre à deviner ici :
-const guessNumber = askNumber();
-console.log("Le nombre à deviner est : ", guessNumber);
+// const guessNumber = askNumber();
+// console.log("Le nombre à deviner est : ", guessNumber);
 
 // Créer une fonction qui demande un nombre
 // function givenNumber() {
@@ -61,22 +61,22 @@ console.log("Le nombre à deviner est : ", guessNumber);
 //     return number
 // }
 
-const givenNumber = () => {
-    let userPrompt = prompt("Donner un nombre: ");
-    console.log(`Variable userPrompt`, userPrompt);
-    let number = parseInt(userPrompt);
-
-    while (number !== guessNumber) {
-        userPrompt = prompt("Essaie encore")
-        number = parseInt(userPrompt)
-        if (isNaN(number)) {
-            alert("Erreur, la valeur n'est pas valide !")
-        }
-    }
-
-    console.log("Variable number: ", number);
-    return number
-}
+// const givenNumber = () => {
+//     let userPrompt = prompt("Donner un nombre: ");
+//     console.log(`Variable userPrompt`, userPrompt);
+//     let number = parseInt(userPrompt);
+//
+//     while (number !== guessNumber) {
+//         userPrompt = prompt("Essaie encore")
+//         number = parseInt(userPrompt)
+//         if (isNaN(number)) {
+//             alert("Erreur, la valeur n'est pas valide !")
+//         }
+//     }
+//
+//     console.log("Variable number: ", number);
+//     return number
+// }
 
 // console.log("Le nombre donné est: ", givenNumber());
 
@@ -110,15 +110,15 @@ const givenNumber = () => {
 //     }
 // }
 
-function didWin(guessNumber) {
-    let userNumber = givenNumber();
-
-    if (userNumber === guessNumber) {
-        return true;
-    } else {
-        return false;
-    }
-}
+// function didWin(guessNumber) {
+//     let userNumber = givenNumber();
+//
+//     if (userNumber === guessNumber) {
+//         return true;
+//     } else {
+//         return false;
+//     }
+// }
 
 // TEST didWIN en console
 // didWin(90);
@@ -138,6 +138,84 @@ function didWin(guessNumber) {
 // }
 // Le problème c'est que le jeu s'arrête quand même après que la fenêtre de la fonction givenNumber réapparaît
 
+// function gamePlay(booleanWin) {
+//     booleanWin = didWin(guessNumber);
+//
+//     if (booleanWin === true) {
+//         alert("Bravo, vous avez gagné !")
+//     } else {
+//         while (booleanWin === false) {
+//             givenNumber()
+//         }
+//     }
+// }
+// Le problème c'est que il continue de me demander un numéro => résolu
+
+// ÉTAPE 3 :
+// console.log("Fonction didWin: ", didWin(userNumber)); // retourne true quand givenNumber = 22 et false sinon
+// console.log("Fonction gamePlay", gamePlay()); // Affiche une nouvelle fois la fenêtre de givenNumber (booleanWin = false), stope et affiche la fin du jeu (boolean = true)
+
+// Je créé une div qui affiche le message :
+// const getParagrapheErrorPlayer1 = document.getElementById("errorPlayer1");
+
+// ÉTAPE 4 : ajouter un joueur voir en haut de la page
+
+// ÉTAPE 5 : afficher le range et le nombre de tentative
+
+// CODE PROPRE : ________________________________________________________
+
+// Créer une fonction qui demande un nombre à deviner
+function askNumber() {
+    let number = null;
+
+    // Tant que ...
+    while (number ===null || isNaN(number) || number > 50 || number < 0) {
+        const getErrorPlayeur1 = document.getElementById("errorPlayeur1")
+        getErrorPlayeur1.innerText = "Joueur 1, donner un nombre à deviner entre 0 et 50: ";
+
+        if (number !== null && isNaN(number)) {
+            getErrorPlayeur1.innerText = "Erreur: Le nombre doit être entre 0 et 50. Réessayez :";
+        }
+
+        const userInput = document.getElementById('guessNumber');
+        number = parseInt(userInput.value);
+    }
+
+    return number;
+}
+
+document.getElementById('submitNumber').addEventListener('click', () => {
+    const guessNumber = askNumber();
+    console.log("Le nombre à deviner est : ", guessNumber);
+});
+
+const givenNumber = () => {
+    let userPrompt = prompt("Donner un nombre: ");
+    console.log(`Variable userPrompt`, userPrompt);
+    let number = parseInt(userPrompt);
+
+    while (number !== guessNumber) {
+        userPrompt = prompt("Essaie encore")
+        number = parseInt(userPrompt)
+        if (isNaN(number)) {
+            alert("Erreur, la valeur n'est pas valide !")
+        }
+    }
+
+    console.log("Variable number: ", number);
+    return number
+}
+
+function didWin(guessNumber) {
+    let userNumber = givenNumber();
+
+    if (userNumber === guessNumber) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 function gamePlay(booleanWin) {
     booleanWin = didWin(guessNumber);
 
@@ -149,15 +227,5 @@ function gamePlay(booleanWin) {
         }
     }
 }
-// Le problème c'est que il continue de me demander un numéro
 
-// ÉTAPE 3 :
-// console.log("Fonction didWin: ", didWin(userNumber)); // retourne true quand givenNumber = 22 et false sinon
-console.log("Fonction gamePlay", gamePlay()); // Affiche une nouvelle fois la fenêtre de givenNumber (booleanWin = false), stope et affiche la fin du jeu (boolean = true)
-
-// Je créé une div qui affiche le message :
-const getParagrapheErrorPlayer1 = document.getElementById("errorPlayer1");
-
-// ÉTAPE 4 : ajouter un joueur voir en haut de la page
-
-// ÉTAPE 5 :
+console.log("Fonction gamePlay", gamePlay());
