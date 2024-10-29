@@ -60,7 +60,7 @@ button {
     padding: 10px 20px;
     font-size: 16px;
     color: #fff;
-    background-color: #007bff;
+    background-color: #93BFEB;
     border: none;
     border-radius: 4px;
     cursor: pointer;
@@ -80,7 +80,7 @@ button:hover {
 }
 
 /* Message de succès */
-#successMessage {
+.successMessage {
     color: green;
     font-size: 16px;
     margin-top: 20px;
