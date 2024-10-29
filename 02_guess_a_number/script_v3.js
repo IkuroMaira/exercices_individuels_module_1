@@ -1,32 +1,11 @@
-// 1. créer un variable qui récupère le bouton "Valider le nombre à trouver" :
 const btnSubmitNumber = document.getElementById('submitNumber')
-console.log(btnSubmitNumber) // OK
+const btnValidateGuess = document.getElementById('validateGuess')
 
-// Ajouter un évènement au click sur le bouton "Valider le nombre à trouver" :
-btnSubmitNumber.addEventListener('click', function () {
-    // Récupérer un input :
-    let getGuessNumber = document.getElementById('guessNumber');
+let guessNumber = null;
+let proposedNumber = null;
 
-    const inputValue = parseInt(getGuessNumber.value);
-    console.log("La valeur de l'input est ", inputValue);
-
-    // Je stocke le nombre à deviner ici :
-    const guessNumber = askNumber(inputValue);
-    console.log("Le nombre à deviner est : ", guessNumber);
-
-    if (guessNumber !== null) {
-        getGuessNumber.disabled = true;
-        btnSubmitNumber.disabled = true;
-    }
-
-    // Je remet "à zéro" l'input pour le nombre à deviner
-    document.getElementById('guessNumber').value = ''
-})
-
-// Créer une fonction qui demande un nombre à deviner
 function askNumber(number) {
 
-    // Si number n'est pas valide ...
     if (number === null || isNaN(number) || number > 50 || number < 0) {
         document.getElementById('errorPlayeur1').textContent = "Joueur 1, donner un nombre à deviner entre 0 et 50:";
         return null
@@ -37,33 +16,64 @@ function askNumber(number) {
     }
 }
 
-// const givenNumber = () => {
-//     let userPrompt = prompt("Donner un nombre: ");
-//     console.log(`Variable userPrompt`, userPrompt);
-//     let number = parseInt(userPrompt);
-//
-//     while (number !== guessNumber) {
-//         userPrompt = prompt("Essaie encore")
-//         number = parseInt(userPrompt)
-//         if (isNaN(number)) {
-//             alert("Erreur, la valeur n'est pas valide !")
-//         }
-//     }
-//
-//     console.log("Variable number: ", number);
-//     return number
-// }
+btnSubmitNumber.addEventListener('click', function () {
 
-// function didWin(guessNumber) {
-//     let userNumber = givenNumber();
+    let getGuessNumber = document.getElementById('guessNumber');
+
+    const inputValue1 = parseInt(getGuessNumber.value);
+    console.log("La valeur de l'input 1 est ", inputValue1);
+
+    guessNumber = askNumber(inputValue1);
+    console.log("Le nombre 1 à deviner est : ", guessNumber);
+
+    if (guessNumber !== null) {
+        getGuessNumber.disabled = true;
+        btnSubmitNumber.disabled = true;
+    }
+
+    document.getElementById('guessNumber').value = ''
+})
+
+function givenNumber(number) {
+
+    if (isNaN(number)) {
+        document.getElementById('errorPlayer2').innerText = 'Essaie encore'
+        return null
+    } else {
+        return number
+    }
+}
+
+btnValidateGuess.addEventListener('click', () => {
+
+    // Ajouter un blocage tant que le premier joueur n'a pas mis son nombre
+    if (guessNumber === null) {
+        document.getElementById('errorPlayer2').innerText = "Le premier joueur n'a pas encore choisi de nombre.";
+        return;
+    }
+
+    let getInputGivenNumber = document.getElementById('userGuess');
+
+    const inputValue2 = parseInt(getInputGivenNumber.value);
+    console.log("La valeur de l'input 2 est ", inputValue2);
+
+    proposedNumber = givenNumber(inputValue2);
+    console.log("Le nombre 2 donné est : ", proposedNumber);
+
+    document.getElementById('userGuess').value = ''
+})
+
+// function didWin() {
 //
-//     if (userNumber === guessNumber) {
+//     if (proposedNumber === guessNumber) {
+//         console.log("Bravo")
 //         return true;
 //     } else {
+//         console.log("Oh non")
 //         return false;
 //     }
 // }
-//
+
 // function gamePlay(booleanWin) {
 //     booleanWin = didWin(guessNumber);
 //
