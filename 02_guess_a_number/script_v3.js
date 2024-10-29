@@ -3,6 +3,7 @@ const btnValidateGuess = document.getElementById('validateGuess')
 
 let guessNumber = null;
 let proposedNumber = null;
+let booleanWin = null;
 
 function askNumber(number) {
 
@@ -46,7 +47,6 @@ function givenNumber(number) {
 
 btnValidateGuess.addEventListener('click', () => {
 
-    // Ajouter un blocage tant que le premier joueur n'a pas mis son nombre
     if (guessNumber === null) {
         document.getElementById('errorPlayer2').innerText = "Le premier joueur n'a pas encore choisi de nombre.";
         return;
@@ -61,29 +61,31 @@ btnValidateGuess.addEventListener('click', () => {
     console.log("Le nombre 2 donné est : ", proposedNumber);
 
     document.getElementById('userGuess').value = ''
+
+    didWin()
+    gamePlay();
 })
 
-// function didWin() {
-//
-//     if (proposedNumber === guessNumber) {
-//         console.log("Bravo")
-//         return true;
-//     } else {
-//         console.log("Oh non")
-//         return false;
-//     }
-// }
+function didWin() {
 
-// function gamePlay(booleanWin) {
-//     booleanWin = didWin(guessNumber);
-//
-//     if (booleanWin === true) {
-//         alert("Bravo, vous avez gagné !")
-//     } else {
-//         while (booleanWin === false) {
-//             givenNumber()
-//         }
-//     }
-// }
-//
-// gamePlay();
+    if (proposedNumber === guessNumber) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function gamePlay() {
+    booleanWin = didWin();
+
+    if (booleanWin === true) {
+        alert("Bravo, vous avez gagné !")
+    } else {
+        // Afficher le bouton recommencer
+        // while (booleanWin === false) {
+        //     givenNumber()
+        // }
+
+        console.log(booleanWin)
+    }
+}
