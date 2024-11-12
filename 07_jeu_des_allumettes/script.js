@@ -1,47 +1,57 @@
-let numberPromptUser1 = parseInt(prompt('Combien veux-tu retirer d\'allumettes ? Entre 1 et 6.'));
-// console.log(numberPromptUser1);
-
-let removedMatches = null;
-
-// On vérifie la valeur renseignée dans le prompt :
-checkNumber = (matches) => {
-
-    // if (matches >= 1 && matches <= 6) { // Entre 1 et 6
-    //     console.log(`Chiffre rentré dans le prompt: ${matches}`);
-    //     return matches;
-    // } else {
-    //     alert('Rentre un numéro entre 1 et 6.');
-    //     numberPromptUser1 = parseInt(prompt('Il faut un nombre entre 1 et 6'));
-    // }
+// On demande et vérifie le nombre :
+function checkNumber(numberOfMatches) {
 
     // Tant que le nombre n'est pas valide
-    while (matches === null || isNaN(matches) || matches > 6 || matches < 0) {
-        let message = "Donnez un nombre entre 0 et 6: ";
+    while (numberOfMatches === null || isNaN(numberOfMatches) || numberOfMatches > 6 || numberOfMatches < 0) {
+        let message = "Donner un nombre à deviner entre 0 et 6: ";
 
         // On ajoute un message d'erreur si nécessaire
-        if (matches !== null && isNaN(matches)) {
-            message = "Erreur: Le nombre doit être entre 0 et 6. Réessayez !";
+        if (numberOfMatches !== null && isNaN(numberOfMatches)) {
+            message = "Erreur: Le nombre doit être entre 0 et 6. Réessayez :";
         }
 
         // On demande le nombre à l'utilisateur
         let userPrompt = prompt(message);
-        matches = parseInt(userPrompt);
+        numberOfMatches = parseInt(userPrompt);
     }
 
-    return matches;
+    // console.log(numberOfMatches)
+    return numberOfMatches;
 }
 
-removeMatch = (matchesLevel1) => {
-    // Nombre d'allumettes à supprimer :
-    const removingMatches = 50;
-    // console.log(removingMatches);
+// Fonction principale du jeu
+function gameMatches() {
+    let numberMatchestoWin = 10;
 
-    // On vérifie le nombre :
-    checkNumber(matchesLevel1);
+    while (numberMatchestoWin > 0) {
+        // Afficher l'état du jeu
+        console.log(`\nIl reste ${numberMatchestoWin} allumettes`);
 
-    // On retire le nombre d'allumettes aux allumettes à supprimer :
-    let remainingMatches = removingMatches - matchesLevel1;
-    console.log(remainingMatches);
+        // Demander le nombre d'allumettes à retirer
+        let matchesToRemove = parseInt(prompt(`Combien d'allumettes voulez-vous retirer (1-6) ?`));
+
+        // Vérifier si le nombre est valide
+        if (!checkNumber(matchesToRemove)) {
+            // console.log("Nombre invalide ! Vous devez retirer entre 1 et 6 allumettes.");
+            continue;
+        }
+
+        // Vérifier si le joueur ne retire pas plus d'allumettes qu'il n'en reste
+        if (matchesToRemove > numberMatchestoWin) {
+            console.log(`Il ne reste que ${numberMatchestoWin} allumettes !`);
+            continue;
+        }
+
+        // Retirer les allumettes
+        numberMatchestoWin -= matchesToRemove;
+
+        // Vérifier la victoire
+        if (numberMatchestoWin === 0) {
+            console.log(`\nFélicitations ! Vous avez gagné !`);
+            break;
+        }
+    }
 }
 
-removeMatch(numberPromptUser1);
+// Lancer le jeu
+gameMatches();
