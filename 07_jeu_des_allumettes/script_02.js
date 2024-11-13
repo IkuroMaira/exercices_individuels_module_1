@@ -3,7 +3,7 @@
 
 // DOM :
 const input = document.querySelector('#input-number');
-const btn = document.querySelector('#btn-validate');
+const validateBtn = document.querySelector('#btn-validate');
 const divMessage = document. querySelector('.div-message');
 const btnContainer = document.querySelector('.buttons-container');
 const replayBtn = document.querySelector('#btn-replay');
@@ -14,11 +14,14 @@ let numberOfMatchesToDelete = null;
 
 // Lorsque je clique sur le bouton valider
 // Je récupère la valeur de l'input par un écouteur d'évènement sur le bouton valider
-btn.addEventListener('click', () =>
+validateBtn.addEventListener('click', () =>
 {
     givenNumberMatches = parseInt(input.value);
     // console.log(givenNumberMatches);
     console.log(`Valeur validéé: ${givenNumberMatches}`);
+
+    // On vide l'input :
+    input.value = '';
 
     checkNumber(givenNumberMatches);
 })
@@ -40,6 +43,10 @@ const checkNumber = (number) => {
         // Si les conditions sont remplies, je stocke dans une variable :
         numberOfMatchesToDelete += number;
         console.log(`La valeur stockée: ${numberOfMatchesToDelete}`);
+
+        let remainingMatches = matchesToRemove - numberOfMatchesToDelete;
+        message.textContent = `Il reste ${remainingMatches} allumettes à supprimer.`;
+        divMessage.appendChild(message);
 
         gameMatches();
     } else {
@@ -65,10 +72,12 @@ const gameMatches = () => {
         message.textContent = 'Victoire !!';
         divMessage.appendChild(message);
 
-        // Désactiver l'input :
-
         btnContainer.appendChild(replayBtn);
         replayBtn.innerText = 'Rejouer'
+
+        // Désactiver le bouton valider et activer le bouton Rejouer :
+        validateBtn.disabled = true;
+        replayBtn.disabled = false;
     } else if (numberOfMatchesToDelete > matchesToRemove) {
         console.log('Tu dépasses le nombre d\' allumettes à supprimer.');
 
@@ -84,4 +93,8 @@ replayBtn.addEventListener('click', () => {
 
     // Vider le conteneur des messages
     divMessage.innerHTML = '';
+
+    // Réactiver le bouton Valider :
+    validateBtn.disabled = false;
+    replayBtn.disabled = true;
 })
