@@ -25,6 +25,10 @@ btn.addEventListener('click', () =>
 // Je veux vérifier que la valeur est bien ente 1 et 6
 checkNumber = (number) => {
     let message = document.createElement('p');
+
+    // Vider le conteneur des messages
+    divMessage.innerHTML = '';
+
     if (number >= 1 && number<= 6) {
         console.log('Le nombre est entre 1 et 6.');
 
