@@ -6,6 +6,7 @@ const input = document.querySelector('#input-number');
 const btn = document.querySelector('#btn-validate');
 const divMessage = document. querySelector('.div-message');
 const btnContainer = document.querySelector('.buttons-container');
+const replayBtn = document.querySelector('#btn-replay');
 
 let givenNumberMatches = null;
 let matchesToRemove = 10;
@@ -23,7 +24,7 @@ btn.addEventListener('click', () =>
 })
 
 // Je veux vérifier que la valeur est bien ente 1 et 6
-checkNumber = (number) => {
+const checkNumber = (number) => {
     let message = document.createElement('p');
 
     // Vider le conteneur des messages
@@ -55,9 +56,8 @@ checkNumber = (number) => {
 }
 
 // Je veux que lorsque le jeux est gagné on arrête ou on continue :
-gameMatches = () => {
+const gameMatches = () => {
     let message = document.createElement('p');
-    let replayBtn = document.createElement('button');
 
     if (numberOfMatchesToDelete === matchesToRemove) {
         console.log('Victoire !!');
@@ -76,3 +76,12 @@ gameMatches = () => {
         divMessage.appendChild(message);
     }
 }
+
+// Quand j'appuie sur le bouton rejouer le compteur d'allumettes revient à zéro ou null
+replayBtn.addEventListener('click', () => {
+    numberOfMatchesToDelete = null;
+    console.log(`La nouvelle valeur de est: ${numberOfMatchesToDelete}`);
+
+    // Vider le conteneur des messages
+    divMessage.innerHTML = '';
+})
