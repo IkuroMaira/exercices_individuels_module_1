@@ -94,7 +94,7 @@ button {
     cursor: not-allowed;
 }
 
-.div-message {
+.div-messages {
     margin-top: 2rem;
     padding: 1rem;
     border-radius: 5px;
@@ -105,6 +105,10 @@ button {
     max-width: 500px;
     text-align: center;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.error {
+    color: #dc3a9b;
 }
 
 /* Responsive design */

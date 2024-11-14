@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jeu des Allumettes</title>
+    <link rel="stylesheet" href="claude.css">
+</head>
+<body>
+<div class="container">
+    <h1>Jeu des Allumettes</h1>
+
+    <!-- Configuration initiale -->
+    <div id="setup" class="section">
+        <h2>Configuration</h2>
+        <div class="input-group">
+            <label for="playerCount">Nombre de joueurs :</label>
+            <input type="number" id="playerCount" min="2" max="10" value="2">
+        </div>
+        <button id="startGame">Démarrer la partie</button>
+    </div>
+
+    <!-- Interface de jeu -->
+    <div id="gameInterface" class="section hidden">
+        <div class="game-status">
+            <h2>Tour du Joueur <span id="currentPlayer">1</span></h2>
+            <p>Allumettes restantes : <span id="matchCount">50</span></p>
+        </div>
+
+        <div class="matches-display" id="matchesDisplay">
+            <!-- Les allumettes seront affichées ici -->
+        </div>
+
+        <div class="player-input">
+            <label for="matchesToRemove">Nombre d'allumettes à retirer (1-6) :</label>
+            <input type="number" id="matchesToRemove" min="1" max="6">
+            <button id="playTurn">Jouer</button>
+        </div>
+    </div>
+
+    <!-- Message de fin de partie -->
+    <div id="gameOver" class="section hidden">
+        <h2>Partie terminée !</h2>
+        <p id="winner"></p>
+        <button id="newGame">Nouvelle partie</button>
+    </div>
+</div>
+<script src="claude.js"></script>
+</body>
+</html>
