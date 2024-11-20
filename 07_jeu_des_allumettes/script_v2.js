@@ -1,6 +1,7 @@
 // Variable globales
 
 // Les écouteurs d'évènements :
+document.querySelector('#btn-validate').addEventListener('click', isValid);
 
 // Function isValid
 
@@ -75,8 +76,17 @@
 // 5. GESTION DES ENTRÉES
 // -------------------
 // recupererNombreAllumettes()
-// - Récupère le nombre d'allumettes choisi par le joueur
-// - Valide que c'est bien un nombre
+function isValid() {
+    // - Récupère le nombre d'allumettes choisi par le joueur
+    const inputMatches = document.querySelector('#matches-to-remove');
+    let matchesToRemove = inputMatches.value;
+    console.log(`${matchesToRemove} allumettes entrées`);
+
+    // - Valide que c'est bien un nombre
+    if (matchesToRemove )
+}
+
+isValid()
 
 // validerEntree(nombre)
 // - Vérifie que l'entrée est un nombre valide
