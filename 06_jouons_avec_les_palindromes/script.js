@@ -13,11 +13,10 @@
 // console.log(test6); // Valid et au bon format 2024/10/01
 
 // new Date(year, monthIndex, day); Le mois sont numérotés à partir de 0.
-// Regarder getDate();
 
-// On vérifie si la date est valide au format dd/mm/aaaa
+// On vérifie si la date est valide au format yyyy/mm/dd
 
-// Avec la méthode Date() et le format yyyy/mm/dd.
+// Avec la méthode Date(year, monthIndex, day) et le format yyyy/mm/dd.
 // Ça entend 3 inputs
 // function isValidDate(day, month, year) {
 //     // Valider si la chaîne de caractère est une date
@@ -33,12 +32,45 @@
 // isValidDate(inputDay, inputMonth, inputYear); // 2024-10-11T22:00:00.000Z
 // isValidDate(42, 15, 2024); // 2025-05-11T22:00:00.000Z -> Est indiqué comme valide
 
-// Avec la méthode Date() mais un seul input
-function isValidDate(inputDate) {
-    let verifyDate = new Date(inputDate);
-    console.log("Date entrée: ",verifyDate);
+// Avec la méthode Date(dateString) mais un seul input (qui est apparemment fortement déconseillé dans le documentation MDN)
+// function isValidDate(inputDate) {
+//     let verifyDate = new Date(inputDate);
+//     console.log("Date entrée: ",verifyDate);
+//
+//     // On met dans un tableau pour chercher la position (index)
+//     let dateArray = inputDate.split('/');
+//     console.log(dateArray);
+//
+//     let year = dateArray[0];
+//     let month = dateArray[1];
+//     let day = dateArray[2];
+//     console.log(`${dateArray[2]}/${dateArray[1]}/${dateArray[0]}`);
+//
+//     // On ajoute une condition pour demander le format yyyy/mm/dd
+//     if (year.length === 4 || month.length === 2 || day.length === 2) {
+//         console.log(true);
+//         return true;
+//     } else {
+//         console.log(false);
+//         return false;
+//     }
+// }
+
+// isValidDate("2024/02/15"); // 2024-02-14T23:00:00.000Z -> yyyy-mm-dd
+// isValidDate("14/02/2024"); // Invalid Date
+// isValidDate("2024/42/90"); // Invalid Date
+// isValidDate("2024/20/02"); // Invalid Date
+// isValidDate("23456/002/003"); // +023456-02-02T23:00:00.000Z & retourne false
+
+// On vérifie si la date est valide au format dd/mm/yyyy avec les expressions régulières
+function isValidDate(dateInput) {
+    // Format : "DD-MM-YYYY"
+    const regexUseDashes = /^(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])-(\d{4})$/;
+    // Format : DD/MM/YYYY
+    const regexUseSlashes = /^(0[1-9]|1[0-2])\/(0[1-9]|1[0-2])\/\d{4}$/;
+
+    return regexUseSlashes.test(dateInput);
 }
 
-isValidDate("14/02/2024"); // Invalid Date
-isValidDate("2024/02/15"); // 2024-02-14T23:00:00.000Z
-isValidDate("2024/42/90"); // Invalid Date
+console.log(isValidDate("14/02/2024")); // false
+// console.log(isValidDate("14-02-2024")); // false
