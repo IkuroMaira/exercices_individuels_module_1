@@ -64,13 +64,104 @@
 
 // On vérifie si la date est valide au format dd/mm/yyyy avec les expressions régulières
 function isValidDate(dateInput) {
-    // Format : "DD-MM-YYYY"
-    const regexUseDashes = /^(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])-(\d{4})$/;
-    // Format : DD/MM/YYYY
-    const regexUseSlashes = /^(0[1-9]|1[0-2])\/(0[1-9]|1[0-2])\/\d{4}$/;
+    // Format : "DD-MM-YYYY" et "DD/MM/YYYY"
+    // const regex = /^(0[1-9]|[12][0-9]|3[01])(\/|-)(0[1-9]|1[0-2])(\/|-)([0-9]{4})$/; // Si on met des tirets dans la date "dd-mm-yyyy"
+    const regex = /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/([0-9]{4})$/;
 
-    return regexUseSlashes.test(dateInput);
+    if (!regex.test(dateInput)) {
+        // console.log("La date n'est pas valide selon le regex");
+        return false
+    }
+
+    // 1. On met dans un tableau et on indique le séparateur
+    const dateArray = dateInput.split("/"); // J'ai bien 3 éléments dans mon tableau
+    // const dateArray = dateInput.split("/").map(Number);
+    // console.log("Dans le dateArray", dateArray);
+
+    const day = parseInt(dateArray[0]);
+    const month = parseInt(dateArray[1]);
+    const year = parseInt(dateArray[2]);
+    // console.log(day, month, year);
+
+    // On vérifie que la validité de l'année bisextile
+    // const yearBisextile = isBisextileYear(year);
+    // // console.log(dateInput, yearBisextile);
+    // if (yearBisextile === false) {
+    //     return false;
+    // }
+
+    const maxDays = maxDayInMonth(day, month);
+    console.log(dateInput, maxDays);
+    if (maxDays === false) {
+        return false;
+    }
+
+    // const yearBisetile = isBisextileYear(year);
+    // if (month === 2 && day >= 29 && yearBisetile === false) {
+    //     return false
+    // }
+
+    return true;
 }
 
-console.log(isValidDate("14/02/2024")); // false
-// console.log(isValidDate("14-02-2024")); // false
+function maxDayInMonth(dayEntry, monthEntry) {
+    if (dayEntry <= 30 && monthEntry >= 1 && monthEntry <= 6 && monthEntry % 2 === 0) {
+        // console.log("Entre janvier et juin, 30 jours");
+        return true;
+    } else if (dayEntry <= 30 && monthEntry >= 6 && monthEntry <= 12 && monthEntry % 2 != 0) {
+        // console.log("Entre juin et décembre, 30 jours");
+        return true;
+    } else if (dayEntry >= 30 && monthEntry >= 1 && monthEntry <= 6 && monthEntry % 2 != 0) {
+        return true;
+    } else if (dayEntry >= 30 && monthEntry >= 6 && monthEntry <= 12 && monthEntry % 2 === 0) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function isBisextileYear(yearEntry) {
+    if (yearEntry % 4 === 0 && yearEntry % 100 != 0 && yearEntry % 400 != 0) {
+        // console.log("C'est une année bisextile");
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function isPalindrome(dateInput) {
+    // On vérifie que la date est bonne
+    if (isValidDate(dateInput) === false) {
+        // console.log("Error date");
+        return false
+    }
+
+    // Enlève les '/' et compare la chaîne avec son inverse
+    const dateWithoutSlash = dateInput.replace(/\//g, '');
+    console.log(dateWithoutSlash);
+    const dateReversed = dateWithoutSlash.split('').reverse().join('');
+    console.log(dateReversed);
+
+    return true
+}
+
+// TESTS :
+const dates = [
+    "14/02/2024", // Valide -> OK -> true
+    "29/02/2024", // Valide -> OK, année bisextile -> true
+    "29/02/2023", // Valide -> NOT OK car ce n'est pas bisextile -> false
+    "12/31/2024", // Pas valide -> C'est OK -> false
+    "12/12/20025", // Pas valide -> OK -> false
+    "31/04/2024", // Valide -> NOT OK car il n'y a pas 31 jours dans le mois d'avril -> false
+    "31/11/2024", // Valide -> NOT OK -> false
+    "03/02/2030", // Valide -> OK -> false
+    "12/12/2024"
+]
+
+dates.forEach(date => {
+    console.log(`${date} => `, isValidDate(date));
+});
+
+// dates.forEach(date => {
+//     console.log(`${date} => `, isPalindrome(date));
+// });
