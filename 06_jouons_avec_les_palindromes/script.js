@@ -62,6 +62,8 @@
 // isValidDate("2024/20/02"); // Invalid Date
 // isValidDate("23456/002/003"); // +023456-02-02T23:00:00.000Z & retourne false
 
+// ---------------------------------------------------------------------------------------------------------------------
+
 // On vérifie si la date est valide au format dd/mm/yyyy avec les expressions régulières
 function isValidDate(dateInput) {
     // Format : "DD-MM-YYYY" et "DD/MM/YYYY"
@@ -83,48 +85,31 @@ function isValidDate(dateInput) {
     const year = parseInt(dateArray[2]);
     // console.log(day, month, year);
 
-    // On vérifie que la validité de l'année bisextile
-    // const yearBisextile = isBisextileYear(year);
-    // // console.log(dateInput, yearBisextile);
-    // if (yearBisextile === false) {
-    //     return false;
-    // }
-
-    const maxDays = maxDayInMonth(day, month);
-    console.log(dateInput, maxDays);
+    const maxDays = maxDayInMonth(day, month, year);
+    // console.log(dateInput, maxDays);
     if (maxDays === false) {
         return false;
     }
 
-    // const yearBisetile = isBisextileYear(year);
-    // if (month === 2 && day >= 29 && yearBisetile === false) {
-    //     return false
-    // }
-
     return true;
 }
 
-function maxDayInMonth(dayEntry, monthEntry) {
-    if (dayEntry <= 30 && monthEntry >= 1 && monthEntry <= 6 && monthEntry % 2 === 0) {
-        // console.log("Entre janvier et juin, 30 jours");
-        return true;
-    } else if (dayEntry <= 30 && monthEntry >= 6 && monthEntry <= 12 && monthEntry % 2 != 0) {
-        // console.log("Entre juin et décembre, 30 jours");
-        return true;
-    } else if (dayEntry >= 30 && monthEntry >= 1 && monthEntry <= 6 && monthEntry % 2 != 0) {
-        return true;
-    } else if (dayEntry >= 30 && monthEntry >= 6 && monthEntry <= 12 && monthEntry % 2 === 0) {
-        return true;
-    } else {
+function maxDayInMonth(dayEntry, monthEntry, yearEntry) {
+    if (monthEntry === 2 && dayEntry > 28 ) {
+        // console.log("Gérer l'année bisextile");
+        let notBisextileYear = isBisextileYear(yearEntry);
+        if ( notBisextileYear === false) {
+            return false;
+        }
+    } else if (dayEntry > 30 && monthEntry >= 1 && monthEntry <= 6 && monthEntry % 2 === 0) {
+        return false;
+    } else if (dayEntry > 30 && monthEntry >= 7 && monthEntry <= 12 && monthEntry % 2 != 0) {
         return false;
     }
 }
 
 function isBisextileYear(yearEntry) {
-    if (yearEntry % 4 === 0 && yearEntry % 100 != 0 && yearEntry % 400 != 0) {
-        // console.log("C'est une année bisextile");
-        return true;
-    } else {
+    if (yearEntry % 4 != 0) { //  && yearEntry % 100 != 0 && yearEntry % 400 != 0
         return false;
     }
 }
@@ -138,30 +123,36 @@ function isPalindrome(dateInput) {
 
     // Enlève les '/' et compare la chaîne avec son inverse
     const dateWithoutSlash = dateInput.replace(/\//g, '');
-    console.log(dateWithoutSlash);
+    // console.log(dateWithoutSlash);
     const dateReversed = dateWithoutSlash.split('').reverse().join('');
-    console.log(dateReversed);
+    // console.log(dateReversed);
 
-    return true
+    if (dateWithoutSlash === dateReversed) {
+        // return "C'est un palindrome";
+        return true;
+    } else {
+        return false;
+    }
 }
 
 // TESTS :
 const dates = [
-    "14/02/2024", // Valide -> OK -> true
-    "29/02/2024", // Valide -> OK, année bisextile -> true
-    "29/02/2023", // Valide -> NOT OK car ce n'est pas bisextile -> false
-    "12/31/2024", // Pas valide -> C'est OK -> false
-    "12/12/20025", // Pas valide -> OK -> false
-    "31/04/2024", // Valide -> NOT OK car il n'y a pas 31 jours dans le mois d'avril -> false
-    "31/11/2024", // Valide -> NOT OK -> false
-    "03/02/2030", // Valide -> OK -> false
-    "12/12/2024"
+    "14/02/2024", // Doit être true
+    "29/02/2024", // Doit être true : année bisextile
+    "29/02/2023", // Doit être false : pas une année bisextile
+    "12/31/2024", // Doit être false : il n'y a pas de mois 31
+    "12/12/20025", // Doit être false : pas d'année à 5 chiffres
+    "31/04/2024", // Doit être false : pas 31 jours
+    "31/11/2024", // Doit être false : pas 31 jours
+    "03/02/2030", // Doit être true : est un palindrome
+    "12/12/2024", // Doit être true
+    "21/12/2112", // Doit être true : est un palindrome
 ]
 
-dates.forEach(date => {
-    console.log(`${date} => `, isValidDate(date));
-});
-
 // dates.forEach(date => {
-//     console.log(`${date} => `, isPalindrome(date));
+//     console.log(`${date} => `, isValidDate(date));
 // });
+
+dates.forEach(date => {
+    console.log(`${date} => `, isPalindrome(date));
+});
